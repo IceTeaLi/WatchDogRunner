@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include <QLayout>
 #include <QListWidget>
+#include <QDesktopWidget>
 
 #include "ui_WatchDogRunner.h"
 #include "TabWidget.h"
@@ -19,7 +20,5 @@ public:
 private:
 	Ui::WatchDogRunnerClass ui;
 
-	gui::MainWidget* tab;
-
-	QGridLayout* main_layout;
+	void Init();
 };

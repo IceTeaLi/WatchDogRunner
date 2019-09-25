@@ -4,10 +4,11 @@ WatchDogRunner::WatchDogRunner(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	Init();
+}
 
-
-	main_layout = new QGridLayout(this);
-
-	main_layout->setContentsMargins(0, 0, 0, 0);
-	this->centralWidget()->setLayout(main_layout);
+void WatchDogRunner::Init()
+{
+	this->resize(QSize(QApplication::desktop()->width() / 2, QApplication::desktop()->height() / 2));
+	
 }
