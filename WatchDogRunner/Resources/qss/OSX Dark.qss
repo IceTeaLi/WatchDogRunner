@@ -65,7 +65,7 @@ ApplicationPalette {
 
 QMainWindow,
 QDockWidget {
-  background-color: #2e2e2e;
+  background-color: #2d2d2d;
 }
 
 QDialog,
@@ -225,36 +225,39 @@ QMenu::indicator {
 }
 
 QPushButton {
-  background-color: #444444;
-  border: 1px solid #444444;
-  color: #d8d8d8;
-  font-size: 12pt;
-  padding: 3px 20px;
+  background-color: #262626;
+  border: 5px solid #262626;
+  color: #BFBFBF;
+  font:17pt;
+  padding: 10px;
+  min-height:100px;  
 }
 
 QPushButton:focus {
-  background-color: #3e4f5e;
+  background-color: #1b1b1b;
+  border-color: #1b1b1b;
+  border-left-color: #C0120C;
+  color: #C0120C;
 }
 
 QPushButton:hover {
-  background-color: #595959;
-  border-color: #555555;
+  background-color: #242424;
+  border-color: #202020;
+  border-left-color: #C0120C;
 }
 
 QPushButton:hover:focus {
-  background-color: #485d6f;
-  border-color: #485d6f;
-}
-
-QPushButton:focus {
-  border-color: #3e4f5e;
+  background-color: #1b1b1b;
+  border-color: #1b1b1b;
+  border-left-color: #C0120C;
+  color: #C0120C;
 }
 
 QPushButton:pressed,
 QPushButton:pressed:focus {
-  background-color: #298ce1;
-  border-color: #298ce1;
-  color: white;
+  background-color: #1b1b1b;
+  border-color: #1b1b1b;
+  border-left-color: #C0120C;
 }
 
 QGroupBox,

@@ -6,9 +6,11 @@
 #include <QLayout>
 #include <QListWidget>
 #include <QDesktopWidget>
-
+#include <QListWidget>
+#include "NavigationBar.h"
 #include "ui_WatchDogRunner.h"
-#include "TabWidget.h"
+
+
 
 class WatchDogRunner : public QMainWindow
 {
@@ -19,6 +21,10 @@ public:
 
 private:
 	Ui::WatchDogRunnerClass ui;
+
+	ui_component::NavigationBar* list;
+
+	QGridLayout* main_layout;
 
 	void Init();
 };
