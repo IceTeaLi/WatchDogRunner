@@ -29,7 +29,7 @@ bool hook::MsgInject::DoInject()
 		return false;
 	if (IsHookSingleMsg())
 	{
-		return SetMsgHook(tid, single_msg_id));
+		return SetMsgHook(tid, single_msg_id);
 	}
 	else {
 		for (auto c : msg_id_vec)
