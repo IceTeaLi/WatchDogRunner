@@ -4,9 +4,14 @@
 #include <QPushButton>
 #include <QStyleOption>
 #include <QPainter>
+#include <QString>
+#include <QFile>
 
 namespace ui_component
 {
+	//class ButtonList
+	//按钮列表，用于侧边栏等以列表形式存在的交互控件
+	//public: AddBtn() 向按钮列表中添加项
 
 	class ButtonList
 	{

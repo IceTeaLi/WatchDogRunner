@@ -1,4 +1,5 @@
 #include "NavigationBar.h"
+#include "WatchDogRunner.h"
 
 using namespace ui_component;
 
@@ -28,17 +29,16 @@ NavigationBar::~NavigationBar()
 
 void ui_component::NavigationBar::paintEvent(QPaintEvent* e)
 {
-	QStyleOption opt;
-	opt.init(this);
 	QPainter p(this);
-	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-	style()->drawControl(QStyle::CE_PushButton, &opt, &p, this);
+	p.fillRect(this->rect(), QColor(38, 38, 38));
 }
 
 void NavigationBar::Init()
 {
 	this->setWindowFlag(Qt::FramelessWindowHint);
+
 	list = new ButtonList(this);
+
 	hello_btn = new QPushButton(this);
 	hello_btn->setText(QString(u8"Hello"));
 	information_btn = new QPushButton(this);
@@ -47,13 +47,14 @@ void NavigationBar::Init()
 	execute_btn->setText(QString(u8"Execute"));
 	setting_btn = new QPushButton(this);
 	setting_btn->setText(QString(u8"Setting"));
+
 	list->AddBtn(hello_btn);
 	list->AddBtn(information_btn);
 	list->AddBtn(execute_btn);
 	list->AddBtn(setting_btn);
-	
+
 	list->Layout()->addStretch();
-	this->setStyleSheet("background-color: #262626;");
 
 	this->setLayout(list->Layout());
+
 }

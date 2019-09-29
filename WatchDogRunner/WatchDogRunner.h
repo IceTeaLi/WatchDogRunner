@@ -8,6 +8,7 @@
 #include <QDesktopWidget>
 #include <QListWidget>
 #include "NavigationBar.h"
+#include "MainContent.h"
 #include "ui_WatchDogRunner.h"
 
 
@@ -27,4 +28,6 @@ private:
 	QGridLayout* main_layout;
 
 	void Init();
+
+	void SetLayout();
 };
