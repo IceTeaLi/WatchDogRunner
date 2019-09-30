@@ -1,12 +1,9 @@
 #include "MsgIPC.h"
 
 
+//ipc::InvisibleWindow(ipc::Cache<MSG>& cache, QWidget* parent)
+//	:cache(cache),QWidget(parent)
+//{//
 
-MsgIPC::MsgIPC()
-{
-}
-
-
-MsgIPC::~MsgIPC()
-{
-}
+//}
+//ipc::~InvisibleWindow();

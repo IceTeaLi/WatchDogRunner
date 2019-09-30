@@ -86,6 +86,9 @@
     <QtMoc Include="MainContent.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="MsgIPC.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleBar.h">
@@ -95,9 +98,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Hook.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MsgIPC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
