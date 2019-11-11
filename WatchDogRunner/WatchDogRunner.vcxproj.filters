@@ -100,5 +100,8 @@
     <ClInclude Include="Hook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WindowsMessageHelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
