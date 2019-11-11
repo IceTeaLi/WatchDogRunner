@@ -1,11 +1,28 @@
 #include "WatchDogRunner.h"
 
+using namespace ipc;
+using namespace hook;
+using namespace process;
+
 WatchDogRunner::WatchDogRunner(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
 	ui.mainToolBar->hide();
 	Init();
+	server = new MsgIPCWnd;
+	server->start();
+	server->show();
+	Process process(TEXT("C:\\Users\\leon\\AppData\\Local\\Kingsoft\\WPS Office\\ksolaunch.exe"),TEXT("C:\\Users\\leon\\Desktop\\office-test\\EXCEL\\wps\\2M.et"));
+	process.WPSstart(TEXT("2M.et - WPS 2019"));
+	PROCESS_INFORMATION pi;
+	ZeroMemory(&pi, sizeof(pi));
+	process.GetProcessInfo(pi);
+
+	//process.stop();
+	MsgInject hook(pi.dwThreadId, 0);
+	hook.DoInject();
+
 }
 
 void WatchDogRunner::Init()

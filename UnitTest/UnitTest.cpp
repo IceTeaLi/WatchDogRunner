@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "..\WatchDogRunner\Process.h"
+//#include "..\WatchDogRunner\WinFinder.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -18,5 +19,6 @@ namespace UnitTest
 			app.start();
 			app.stop();
 		}
+
 	};
 }

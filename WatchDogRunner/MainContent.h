@@ -24,6 +24,43 @@ namespace ui_component
 		QTextBrowser* text_window;
 	};
 
+	class InfoWidget :public QWidget
+	{
+		Q_OBJECT
+	public:
+		InfoWidget(QWidget* parent = Q_NULLPTR);
+		~InfoWidget();
+
+	private:
+
+	};
+
+	class ExecuteWidget :public QWidget
+	{
+		Q_OBJECT
+	public:
+		ExecuteWidget(QWidget* parent = Q_NULLPTR);
+		~ExecuteWidget();
+
+	private:
+
+
+
+	};
+
+	class SettingsWidget :public QWidget
+	{
+		Q_OBJECT
+	public:
+		SettingsWidget(QWidget* parent = Q_NULLPTR);
+		~SettingsWidget();
+
+	private:
+
+
+
+	};
+
 	class MainContent:public QStackedWidget
 	{
 		Q_OBJECT

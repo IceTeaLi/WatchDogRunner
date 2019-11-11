@@ -36,3 +36,16 @@ ui_component::HelloWidget::~HelloWidget()
 void ui_component::HelloWidget::paintEvent(QPaintEvent* e)
 {
 }
+
+
+ui_component::InfoWidget::~InfoWidget()
+{
+}
+
+ui_component::ExecuteWidget::~ExecuteWidget()
+{
+}
+
+ui_component::SettingsWidget::~SettingsWidget()
+{
+}

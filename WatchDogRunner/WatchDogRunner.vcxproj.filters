@@ -42,16 +42,16 @@
     <ClCompile Include="MainContent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TitleBar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Process.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Hook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MsgIPC.cpp">
+    <ClCompile Include="WinFinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IPC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,14 +86,14 @@
     <QtMoc Include="MainContent.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="MsgIPC.h">
+    <QtMoc Include="WinFinder.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="IPC.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TitleBar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Process.h">
       <Filter>Header Files</Filter>
     </ClInclude>

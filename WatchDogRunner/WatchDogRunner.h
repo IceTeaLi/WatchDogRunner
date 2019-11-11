@@ -9,6 +9,9 @@
 #include <QListWidget>
 #include "NavigationBar.h"
 #include "MainContent.h"
+#include "IPC.h"
+#include "Hook.h"
+#include "Process.h"
 #include "ui_WatchDogRunner.h"
 
 
@@ -30,4 +33,6 @@ private:
 	void Init();
 
 	void SetLayout();
+
+	ipc::MsgIPCWnd *server;
 };
