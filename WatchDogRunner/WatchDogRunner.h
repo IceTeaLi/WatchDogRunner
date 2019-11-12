@@ -34,5 +34,5 @@ private:
 
 	void SetLayout();
 
-	ipc::MsgIPCWnd *server;
+	ipc::message::MsgIPCWnd *server;
 };

@@ -1,5 +1,6 @@
 #include "Hook.h"
 
+
 hook::MsgInject::MsgInject(const DWORD& tid, const DWORD& msg_id)
 	:tid(tid)
 	,single_msg_id(msg_id)
@@ -8,6 +9,7 @@ hook::MsgInject::MsgInject(const DWORD& tid, const DWORD& msg_id)
 	SetMsgHook = (SetHook)GetProcAddress(module, "SetHook");
 	UnMsgHook = (UnHook)GetProcAddress(module, "UnHook");
 }
+
 
 hook::MsgInject::MsgInject(const DWORD& tid, const vector<DWORD>& vec)
 	:tid(tid)

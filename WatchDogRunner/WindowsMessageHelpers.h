@@ -4,13 +4,13 @@
 //#include "Containers/UnrealString.h"
 
 #include <Windows.h>
+/*
 
-
-struct FMessageName
+typedef struct tagFMessageName
 {
 	DWORD Message;
 	const TCHAR* Name;
-};
+}FMessageName;
 
 
 static const FMessageName WindowsMessageNames[] =
@@ -1020,8 +1020,7 @@ static const FMessageName WindowsMessageNames[] =
 	{ 52429, TEXT("WM_RASDIALEVENT") }
 };
 
-/*
-const FMessageName& LookUpMessage(DWORD Message)
+static const FMessageName& LookUpMessage(DWORD Message)
 {
 	for (auto& c : WindowsMessageNames)
 	{

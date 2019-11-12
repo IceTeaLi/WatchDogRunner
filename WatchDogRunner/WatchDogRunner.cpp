@@ -1,6 +1,6 @@
 #include "WatchDogRunner.h"
 
-using namespace ipc;
+using namespace ipc::message;
 using namespace hook;
 using namespace process;
 
