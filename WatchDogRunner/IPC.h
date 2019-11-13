@@ -228,8 +228,12 @@ namespace ipc
 				return false;
 			}
 
+			bool start();
+
+
 		private:
 			bool b_showWnd_open = false;
+			bool b_start = false;
 
 			MsgIPCWnd* msg_get_wnd;
 			MsgShowWnd* msg_show_wnd;

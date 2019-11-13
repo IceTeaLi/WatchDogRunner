@@ -1087,15 +1087,27 @@ ipc::message::MsgServer::~MsgServer()
 	msg_get_wnd = nullptr;
 }
 
+bool ipc::message::MsgServer::start()
+{
+	b_start = true;
+	std::thread msg_ipc(&MsgMonitor);
+	msg_ipc.detach();
+}
+
 void ipc::message::MsgServer::MsgProc()
 {
-	while (1)
+
+}
+
+void ipc::message::MsgServer::MsgMonitor()
+{
+	while (b_start)
 	{
 		if (!msg_get_wnd->cacheEmpty())
 		{
 			Message message = msg_get_wnd->get();
 			QDateTime current_time = QDateTime::currentDateTime();
-			QString str = current_time.toString("yyyy-MM-dd hh:mm:ss.zzz")+ ":";
+			QString str = current_time.toString("yyyy-MM-dd hh:mm:ss.zzz") + ":";
 			str += "HWND:		" + QString::number(reinterpret_cast<DWORD>(message.hwnd), 16).toUpper();
 			str += "		Message Code:		" + QString::number(reinterpret_cast<DWORD>(message.message.msg_code)).toUpper();
 			str += "		Message:		" + QString::fromStdWString(message.message.name);
@@ -1105,11 +1117,6 @@ void ipc::message::MsgServer::MsgProc()
 			Sleep(5);
 		}
 	}
-}
-
-void ipc::message::MsgServer::MsgMonitor()
-{
-	
 }
 
 ipc::message::MsgShowWnd::MsgShowWnd(QWidget* parent)
