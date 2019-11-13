@@ -1043,9 +1043,7 @@ MsgIPCWnd::MsgIPCWnd(QWidget* parent) :
 	cache = new Cache;
 	this->setWindowTitle(QString(u8"ipc"));
 //	this->setAttribute(Qt::WA_TransparentForMouseEvents,true);
-	//this->setWindowOpacity(0);
-	this->show();
-
+	this->setWindowOpacity(0);
 }
 
 MsgIPCWnd::~MsgIPCWnd()
@@ -1063,19 +1061,68 @@ MsgIPCWnd::~MsgIPCWnd()
 
 bool MsgIPCWnd::nativeEvent(const QByteArray& eventType, void* message, long* result)
 {
-	if (eventType == "windows_generic_MSG" && cache_enable == true)
+	if (eventType == "windows_generic_MSG")
 	{
 		MSG* msg = static_cast<MSG*>(message);
 		if (msg->message == WM_COPYDATA)
 		{
 			const Message trans_msg = MessageBase::TranslateCopydataMsg(*msg);
 			cache->insert(trans_msg);
-			qDebug() << "HWND:	" << trans_msg.hwnd
-				<< "MSG Code:	" << trans_msg.message.msg_code
-				<< "MSG Name:	" << trans_msg.message.name;
 		}
 	}
 	return false;
 }
 
 
+ipc::message::MsgServer::MsgServer()
+{
+	msg_get_wnd = new MsgIPCWnd;
+	OpenMessageMonitor();
+}
+
+ipc::message::MsgServer::~MsgServer()
+{
+	CloseMessageMonitor();
+	delete msg_get_wnd;
+	msg_get_wnd = nullptr;
+}
+
+void ipc::message::MsgServer::MsgProc()
+{
+	while (1)
+	{
+		if (!msg_get_wnd->cacheEmpty())
+		{
+			Message message = msg_get_wnd->get();
+			QDateTime current_time = QDateTime::currentDateTime();
+			QString str = current_time.toString("yyyy-MM-dd hh:mm:ss.zzz")+ ":";
+			str += "HWND:		" + QString::number(reinterpret_cast<DWORD>(message.hwnd), 16).toUpper();
+			str += "		Message Code:		" + QString::number(reinterpret_cast<DWORD>(message.message.msg_code)).toUpper();
+			str += "		Message:		" + QString::fromStdWString(message.message.name);
+			msg_show_wnd->append(str);
+		}
+		else {
+			Sleep(5);
+		}
+	}
+}
+
+void ipc::message::MsgServer::MsgMonitor()
+{
+	
+}
+
+ipc::message::MsgShowWnd::MsgShowWnd(QWidget* parent)
+	:QWidget(parent)
+{
+	this->resize(QSize(480, 640));
+	monitor = new QPlainTextEdit(this);
+
+	layout = new QGridLayout(this);
+	layout->addWidget(monitor,0,0);
+}
+
+
+ipc::message::MsgShowWnd::~MsgShowWnd()
+{
+}

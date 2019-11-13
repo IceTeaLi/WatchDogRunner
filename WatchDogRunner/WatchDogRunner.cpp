@@ -11,8 +11,11 @@ WatchDogRunner::WatchDogRunner(QWidget *parent)
 	ui.mainToolBar->hide();
 	Init();
 	server = new MsgIPCWnd;
-	server->start();
 	server->show();
+	std::vector<DWORD> filter = { WM_TIMER };
+	server->setFilter(filter);
+	server->showMsg();
+	server->start();
 	Process process(TEXT("C:\\Users\\leon\\AppData\\Local\\Kingsoft\\WPS Office\\ksolaunch.exe"),TEXT("C:\\Users\\leon\\Desktop\\office-test\\EXCEL\\wps\\2M.et"));
 	process.WPSstart(TEXT("2M.et - WPS 2019"));
 	PROCESS_INFORMATION pi;
@@ -20,7 +23,8 @@ WatchDogRunner::WatchDogRunner(QWidget *parent)
 	process.GetProcessInfo(pi);
 
 	//process.stop();
-	MsgInject hook(pi.dwThreadId, 0);
+	std::vector<DWORD> msg_id = { 0,1 };
+	MsgInject hook(pi.dwThreadId, msg_id);
 	hook.DoInject();
 
 }

@@ -4,22 +4,26 @@
 #include <queue>
 #include <mutex>
 #include <vector>
+#include <thread>
 #include <iostream>
+#include <chrono>
 
 
 #include <QDialog>
 #include <QString>
 #include <QDesktopWidget>
+#include <QPlainTextEdit>
+#include <QGridLayout>
 #include <QApplication>
 #include <QDebug>
+#include <QDateTime>
 
 //#include "WindowsMessageHelpers.h"
 
 namespace ipc
 {
 	namespace message
-	{
-		
+	{	
 		//@brief: 存储message值，及由message值转换的对应消息字符串
 		typedef struct tagFMessageName
 		{
@@ -94,10 +98,12 @@ namespace ipc
 			~Cache();
 
 			inline void insert(const Message& msg)
-			{
-				std::lock_guard<std::mutex> lock(mutex);
+			{			
 				if (msg.message.msg_code != NULL)
+				{
+					std::lock_guard<std::mutex> lock(mutex);
 					msg_cache.push(msg);
+				}					
 			}
 
 			inline const Message get()
@@ -149,23 +155,86 @@ namespace ipc
 			MsgIPCWnd(QWidget* parent = Q_NULLPTR);
 			~MsgIPCWnd();
 
-			inline virtual void MsgIPCWnd::start()
+			inline virtual const Message get()
 			{
-				cache_enable = true;
-			}
-			inline virtual void MsgIPCWnd::stop()
-			{
-				cache_enable = false;
+				return cache->get();
 			}
 
+			inline virtual bool cacheEmpty()
+			{
+				return cache->empty();
+			}
+
+			inline virtual void clearCache()
+			{
+				cache->clear();
+			}
+			
 		protected:
-			Cache* cache;
-
+			
 			virtual bool nativeEvent(const QByteArray& eventType, void* message, long* result) override;
+		private:
+			Cache* cache;
+			bool b_cache_enable = false;
+		};
 
+		class MsgShowWnd :public QWidget
+		{
+			Q_OBJECT
+		public:
+			MsgShowWnd(QWidget* parent=Q_NULLPTR);
+			~MsgShowWnd();
+
+			void append(const QString& str)
+			{
+				monitor->appendPlainText(str);
+			}
+
+			void clear()
+			{
+				monitor->clear();
+			}
+		private:
+			QPlainTextEdit* monitor;
+			QGridLayout* layout;
+		};
+
+		class MsgServer
+		{
+		public:
+			MsgServer();
+			~MsgServer();
+
+			inline bool OpenMessageMonitor()
+			{
+				if (b_showWnd_open == false)
+				{
+					msg_show_wnd = new MsgShowWnd;
+					b_showWnd_open = true;
+					return true;
+				}
+				return false;			
+			}
+
+			inline bool CloseMessageMonitor()
+			{
+				if (b_showWnd_open == true)
+				{
+					delete msg_show_wnd;
+					msg_show_wnd = nullptr;
+					b_showWnd_open = false;
+					return true;
+				}
+				return false;
+			}
 
 		private:
-			bool cache_enable = false;
+			bool b_showWnd_open = false;
+
+			MsgIPCWnd* msg_get_wnd;
+			MsgShowWnd* msg_show_wnd;
+			void MsgProc();
+			void MsgMonitor();
 		};
 
 	}
