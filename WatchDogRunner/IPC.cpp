@@ -1043,7 +1043,7 @@ MsgIPCWnd::MsgIPCWnd(QWidget* parent) :
 	cache = new Cache;
 	this->setWindowTitle(QString(u8"ipc"));
 //	this->setAttribute(Qt::WA_TransparentForMouseEvents,true);
-	this->setWindowOpacity(0);
+	this->setWindowOpacity(1);
 }
 
 MsgIPCWnd::~MsgIPCWnd()
@@ -1074,10 +1074,13 @@ bool MsgIPCWnd::nativeEvent(const QByteArray& eventType, void* message, long* re
 }
 
 
-ipc::message::MsgServer::MsgServer()
+ipc::message::MsgServer::MsgServer(QObject* parent)
+	:QObject(parent)
 {
 	msg_get_wnd = new MsgIPCWnd;
+	msg_get_wnd->show();
 	OpenMessageMonitor();
+	connect(this, &MsgServer::emitMsgContent, msg_show_wnd, &MsgShowWnd::append);
 }
 
 ipc::message::MsgServer::~MsgServer()
@@ -1087,11 +1090,12 @@ ipc::message::MsgServer::~MsgServer()
 	msg_get_wnd = nullptr;
 }
 
-bool ipc::message::MsgServer::start()
+void ipc::message::MsgServer::start()
 {
 	b_start = true;
-	std::thread msg_ipc(&MsgMonitor);
-	msg_ipc.detach();
+	std::thread msg_ipc(std::mem_fun(&MsgServer::MsgMonitor), this);
+	if (msg_ipc.joinable())
+		msg_ipc.detach();
 }
 
 void ipc::message::MsgServer::MsgProc()
@@ -1106,12 +1110,16 @@ void ipc::message::MsgServer::MsgMonitor()
 		if (!msg_get_wnd->cacheEmpty())
 		{
 			Message message = msg_get_wnd->get();
-			QDateTime current_time = QDateTime::currentDateTime();
-			QString str = current_time.toString("yyyy-MM-dd hh:mm:ss.zzz") + ":";
-			str += "HWND:		" + QString::number(reinterpret_cast<DWORD>(message.hwnd), 16).toUpper();
-			str += "		Message Code:		" + QString::number(reinterpret_cast<DWORD>(message.message.msg_code)).toUpper();
-			str += "		Message:		" + QString::fromStdWString(message.message.name);
-			msg_show_wnd->append(str);
+			if (!checkFilter(message.message.msg_code))
+			{
+				QDateTime current_time = QDateTime::currentDateTime();
+				QString str = current_time.toString("yyyy-MM-dd hh:mm:ss.zzz") + ":";
+				str += "HWND:		" + QString::number(reinterpret_cast<DWORD>(message.hwnd), 16).toUpper();
+				str += "		Message Code:		" + QString::number(message.message.msg_code).toUpper();
+				str += "		Message:		" + QString::fromUtf16(reinterpret_cast<const unsigned short*>(message.message.name));
+//				msg_show_wnd->append(str);
+				emit emitMsgContent(str);
+			}
 		}
 		else {
 			Sleep(5);

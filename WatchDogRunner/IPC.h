@@ -4,9 +4,6 @@
 #include <queue>
 #include <mutex>
 #include <vector>
-#include <thread>
-#include <iostream>
-#include <chrono>
 
 
 #include <QDialog>
@@ -185,24 +182,26 @@ namespace ipc
 			MsgShowWnd(QWidget* parent=Q_NULLPTR);
 			~MsgShowWnd();
 
-			void append(const QString& str)
-			{
-				monitor->appendPlainText(str);
-			}
-
 			void clear()
 			{
 				monitor->clear();
+			}
+		public slots:
+
+			void append(const QString& str)
+			{
+				monitor->appendPlainText(str);
 			}
 		private:
 			QPlainTextEdit* monitor;
 			QGridLayout* layout;
 		};
 
-		class MsgServer
+		class MsgServer:public QObject
 		{
+			Q_OBJECT
 		public:
-			MsgServer();
+			MsgServer(QObject* parent = Q_NULLPTR);
 			~MsgServer();
 
 			inline bool OpenMessageMonitor()
@@ -211,9 +210,25 @@ namespace ipc
 				{
 					msg_show_wnd = new MsgShowWnd;
 					b_showWnd_open = true;
+					msg_show_wnd->show();
 					return true;
 				}
 				return false;			
+			}
+
+			inline void setFilter(std::vector<DWORD>& filter)
+			{
+				this->filter = filter;
+			}
+
+			inline bool checkFilter(const DWORD& msg)
+			{
+				for (auto& c : filter)
+				{
+					if (c == msg)
+						return true;
+				}
+				return false;
 			}
 
 			inline bool CloseMessageMonitor()
@@ -228,17 +243,22 @@ namespace ipc
 				return false;
 			}
 
-			bool start();
+			void start();
 
 
 		private:
 			bool b_showWnd_open = false;
 			bool b_start = false;
 
+			std::vector<DWORD> filter = {};
+
 			MsgIPCWnd* msg_get_wnd;
 			MsgShowWnd* msg_show_wnd;
 			void MsgProc();
 			void MsgMonitor();
+
+		signals:
+			void emitMsgContent(const QString& str);
 		};
 
 	}

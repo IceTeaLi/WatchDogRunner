@@ -94,13 +94,13 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Process.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Hook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WindowsMessageHelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
